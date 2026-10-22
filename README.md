@@ -22,6 +22,8 @@ Servidor de Minecraft **Fabric 26.3** en Google Colab, gratis, apto para cuentas
 | `ONLINE_MODE` | `False` = entran cuentas no premium. |
 | `INSTALAR_FABRIC_API` | Baja la Fabric API de Modrinth para esa versión. |
 
+**¿Menos lag?** En [`ngrok/`](ngrok/) está la variante con túnel ngrok (región São Paulo). Pide cuenta de ngrok con tarjeta verificada.
+
 **Mods:** poné los `.jar` en `Mi unidad/<CARPETA_DRIVE>/mods/` y volvé a correr la celda 2.
 
 ## Cómo se hizo (y por qué el MineColab viejo ya no anda)
