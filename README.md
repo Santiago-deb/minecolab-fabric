@@ -54,8 +54,58 @@ Otros cambios:
 - La IP de bore **cambia en cada arranque**. Si querés una fija, usá `playit`.
 - Colab gratis corta por inactividad o a las ~12 h, y puede pedirte un captcha. Dejá la pestaña abierta.
 - Con `online-mode` apagado **cualquiera puede entrar con cualquier nick**, incluso el tuyo. Si compartís la IP, usá un mod de login como *EasyAuth*.
-- La **whitelist viene apagada**. Si la prendés, `whitelist add <nick>` guarda el UUID de la cuenta *premium* con ese nombre (si existe), y el jugador no premium con ese nick queda afuera igual ("You are not white-listed").
+- La **whitelist viene apagada** a propósito. Ver *Problemas comunes*.
 - Usar Colab para servidores de juegos va contra el espíritu de sus términos. Úsalo para jugar un rato con amigos, no como hosting permanente.
+
+## Problemas comunes
+
+### "You are not white-listed on this server!" con cuentas no premium
+
+Esto nos pasó jugando de verdad. El servidor 26.3 arrancó con la whitelist **prendida**, y una jugadora no premium (nick `cami`) no podía entrar. Agregarla con `whitelist add cami` **no lo arregló**, porque siguió rebotando.
+
+**Por qué:** el servidor no reconoce a los jugadores por el nick sino por un **UUID**.
+
+- Con `online-mode=true`, el UUID es el de la cuenta de Mojang.
+- Con `online-mode=false`, el servidor lo **calcula a partir del nick**: `UUID.nameUUIDFromBytes("OfflinePlayer:" + nick)`.
+- `whitelist add <nick>` igual va a buscar el nick a Mojang. Como existe una cuenta premium llamada `cami` (de otra persona), guardó **el UUID de esa cuenta**, que no coincide con el UUID offline de la jugadora.
+
+Lo mismo le pasa a un jugador que *sí* es premium: en un servidor offline entra con el UUID offline, no con el suyo.
+
+**Arreglo (lo que trae el notebook ahora):** `white-list=false` en `server.properties`. Con el servidor ya corriendo, en la consola de la celda 3:
+
+```
+whitelist off
+```
+
+**Si querés whitelist igual** (por ejemplo, porque compartís la IP), cargala con los UUID offline:
+
+```bash
+python3 herramientas/whitelist_offline.py cami descalculadora > whitelist.json
+```
+
+Copiá `whitelist.json` a `Mi unidad/<CARPETA_DRIVE>/` (o a `/content/server/` si el servidor está corriendo) y en la consola:
+
+```
+whitelist reload
+whitelist on
+```
+
+### Escribir comandos en la consola
+
+La salida de la celda 3 tiene un cuadro de texto abajo de todo: ahí escribís el comando y Enter. Lo que escribas va directo al servidor (sin `/`). Algunos útiles:
+
+| Comando | Para qué |
+|---|---|
+| `op <nick>` | Dar permisos de admin |
+| `whitelist off` / `whitelist on` | Apagar / prender la whitelist |
+| `list` | Ver quién está conectado |
+| `save-all` | Forzar un guardado |
+| `stop` | Apagar **guardando en Drive** |
+
+### Otros
+
+- **"Can't keep up! Is the server overloaded?"** aparece seguido al principio, mientras genera el mapa. El CPU de Colab gratis es flojo. Bajá `view-distance` y `simulation-distance` en `server.properties` (por ejemplo a 6) si se traba.
+- **No conecta / timeout:** fijate que la celda 3 siga corriendo y que la IP sea la de *esta* ejecución. Para comprobarlo desde afuera: `python3 herramientas/ping.py bore.pub:<puerto>`.
 
 ## Licencia
 
