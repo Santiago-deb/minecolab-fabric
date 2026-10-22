@@ -53,7 +53,8 @@ Otros cambios:
 
 - La IP de bore **cambia en cada arranque**. Si querés una fija, usá `playit`.
 - Colab gratis corta por inactividad o a las ~12 h, y puede pedirte un captcha. Dejá la pestaña abierta.
-- Con `online-mode` apagado **cualquiera puede entrar con cualquier nick**, incluso el tuyo. Si compartís la IP, usá `whitelist on` o un mod de login como *EasyAuth*.
+- Con `online-mode` apagado **cualquiera puede entrar con cualquier nick**, incluso el tuyo. Si compartís la IP, usá un mod de login como *EasyAuth*.
+- La **whitelist viene apagada**. Si la prendés, `whitelist add <nick>` guarda el UUID de la cuenta *premium* con ese nombre (si existe), y el jugador no premium con ese nick queda afuera igual ("You are not white-listed").
 - Usar Colab para servidores de juegos va contra el espíritu de sus términos. Úsalo para jugar un rato con amigos, no como hosting permanente.
 
 ## Licencia
